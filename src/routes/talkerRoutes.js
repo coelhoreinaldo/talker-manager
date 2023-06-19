@@ -3,6 +3,7 @@ const readFile = require('../utils/readFile');
 const writeFile = require('../utils/writeFile');
 const apiCredentials = require('../middlewares/apiCredentials');
 const validateFields = require('../middlewares/validateFields');
+const verifyId = require('../middlewares/verifyId');
 
 const router = express.Router();
 
@@ -19,13 +20,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyId, async (req, res) => {
   const { id } = req.params;
   const currTalker = await readFile.getById(id);
-  if (currTalker) {
-    return res.status(200).json(currTalker);
-  }
-  return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  return res.status(200).json(currTalker);
 });
 
 router.use(apiCredentials);
@@ -40,9 +38,16 @@ router.post('/', async (req, res) => {
   const talkersData = await readFile.getAll();
   const id = talkersData[talkersData.length - 1].id + 1;
   const newPerson = { id, ...body };
-  const talkersUpdated = [...talkersData, newPerson];
-  await writeFile.createTalker(talkersUpdated);
+  const updatedData = [...talkersData, newPerson];
+  await writeFile.createTalker(updatedData);
   return res.status(201).json(newPerson);
+});
+
+router.put('/:id', verifyId, async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  const updatedPerson = await writeFile.updateTalker(id, body);
+  return res.status(200).json(updatedPerson);
 });
 
 module.exports = router;
