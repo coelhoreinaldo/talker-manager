@@ -1,5 +1,9 @@
 const express = require('express');
 const readFile = require('../utils/readFile');
+const apiCredentials = require('../middlewares/apiCredentials');
+const {
+  validateNameAndAge, validateTalkInfo, validateNameAndAgeRequirements,
+} = require('../middlewares/validateFields');
 
 const router = express.Router();
 
@@ -24,5 +28,15 @@ router.get('/:id', async (req, res) => {
   }
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
+
+router.use(apiCredentials);
+router.use(validateNameAndAge);
+router.use(validateTalkInfo);
+router.use(validateNameAndAgeRequirements);
+
+// router.post('/talker', async (req, res) => {
+//   const { name, age, talk } = req.body;
+
+// })
 
 module.exports = router;
