@@ -3,6 +3,7 @@ version: "3"
 services:
   # Serviço que irá rodar o node
   backend:
+    user: root
     # Constrói a imagem base do container baseada no Dockerfile
     build: .
     # Nome do container para facilitar execução
