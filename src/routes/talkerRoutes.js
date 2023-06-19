@@ -27,6 +27,13 @@ router.get('/:id', verifyId, async (req, res) => {
 });
 
 router.use(apiCredentials);
+
+router.delete('/:id', verifyId, async (req, res) => {
+  const { id } = req.params;
+  await writeFile.deleteTalker(id);
+  return res.sendStatus(204);
+})
+
 router.use(validateFields.validateNameAndAge);
 router.use(validateFields.validateTalkInfo);
 router.use(validateFields.validateNameAndAgeRequirements);
@@ -51,3 +58,19 @@ router.put('/:id', verifyId, async (req, res) => {
 });
 
 module.exports = router;
+
+// router.post('/', validateFields.validateNameAndAge, validateFields.validateTalkInfo, validateFields.validateNameAndAgeRequirements, validateFields.validateDate, validateFields.validateRate, async (req, res) => {
+//   const { body } = req;
+//   const talkersData = await readFile.getAll();
+//   const id = talkersData[talkersData.length - 1].id + 1;
+//   const newPerson = { id, ...body };
+//   const updatedData = [...talkersData, newPerson];
+//   await writeFile.createTalker(updatedData);
+//   return res.status(201).json(newPerson);
+// });
+
+// router.put('/:id', validateFields.validateNameAndAge, validateFields.validateTalkInfo, validateFields.validateNameAndAgeRequirements, validateFields.validateDate, validateFields.validateRate, verifyId, async (req, res) => {
+//   const { id } = req.params;
+//   const updatedPerson = await writeFile.updateTalker(id, body);
+//   return res.status(200).json(updatedPerson);
+// });

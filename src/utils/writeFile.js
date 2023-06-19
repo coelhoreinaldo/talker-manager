@@ -26,4 +26,10 @@ const updateTalker = async (id, newData) => {
   return updatedPerson;
 };
 
-module.exports = { createTalker, updateTalker };
+const deleteTalker = async (id) => {
+  const talkersData = await readFile.getAll();
+  const newData = talkersData.filter((person) => person.id !== +id)
+  await createTalker(newData);
+}
+
+module.exports = { createTalker, updateTalker, deleteTalker };
