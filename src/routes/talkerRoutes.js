@@ -7,6 +7,12 @@ const verifyId = require('../middlewares/verifyId');
 
 const router = express.Router();
 
+router.get('/search', apiCredentials, async (req, res) => {
+  const { q } = req.query;
+  const talkersData = await readFile.getAll(q);
+  return res.status(200).json(talkersData);
+});
+
 router.get('/', async (req, res) => {
   try {
     const talkersData = await readFile.getAll();
@@ -32,7 +38,7 @@ router.delete('/:id', verifyId, async (req, res) => {
   const { id } = req.params;
   await writeFile.deleteTalker(id);
   return res.sendStatus(204);
-})
+});
 
 router.use(validateFields.validateNameAndAge);
 router.use(validateFields.validateTalkInfo);

@@ -28,8 +28,8 @@ const updateTalker = async (id, newData) => {
 
 const deleteTalker = async (id) => {
   const talkersData = await readFile.getAll();
-  const newData = talkersData.filter((person) => person.id !== +id)
+  const newData = talkersData.filter((person) => person.id !== +id);
   await createTalker(newData);
-}
+};
 
 module.exports = { createTalker, updateTalker, deleteTalker };
