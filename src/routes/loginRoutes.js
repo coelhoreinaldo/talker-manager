@@ -1,9 +1,10 @@
 const express = require('express');
 const generateToken = require('../utils/generateToken');
+const validateLogin = require('../middlewares/validateLogin');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', validateLogin, (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
     const token = generateToken();
