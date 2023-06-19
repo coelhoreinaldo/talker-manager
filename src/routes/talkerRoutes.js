@@ -1,9 +1,7 @@
 const express = require('express');
 const readFile = require('../utils/readFile');
 const apiCredentials = require('../middlewares/apiCredentials');
-const {
-  validateNameAndAge, validateTalkInfo, validateNameAndAgeRequirements,
-} = require('../middlewares/validateFields');
+const validateFields = require('../middlewares/validateFields');
 
 const router = express.Router();
 
@@ -30,9 +28,11 @@ router.get('/:id', async (req, res) => {
 });
 
 router.use(apiCredentials);
-router.use(validateNameAndAge);
-router.use(validateTalkInfo);
-router.use(validateNameAndAgeRequirements);
+router.use(validateFields.validateNameAndAge);
+router.use(validateFields.validateTalkInfo);
+router.use(validateFields.validateNameAndAgeRequirements);
+router.use(validateFields.validateDate);
+router.use(validateFields.validateRate);
 
 // router.post('/talker', async (req, res) => {
 //   const { name, age, talk } = req.body;
