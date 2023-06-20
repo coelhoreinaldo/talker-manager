@@ -45,6 +45,13 @@ router.delete('/:id', verifyId, async (req, res) => {
   return res.sendStatus(204);
 });
 
+router.patch('/rate/:id', validateFields.validateRateToBeEdited, async (req, res) => {
+  const { id } = req.params;
+  const { rate } = req.body;
+  await writeFile.updateRate(id, rate);
+  return res.sendStatus(204);
+});
+
 router.use(validateFields.validateNameAndAge);
 router.use(validateFields.validateTalkInfo);
 router.use(validateFields.validateNameAndAgeRequirements);

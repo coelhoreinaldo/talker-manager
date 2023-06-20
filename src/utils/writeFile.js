@@ -6,7 +6,7 @@ const talkersPath = path.resolve(__dirname, '../talker.json');
 
 const createTalker = async (content) => {
   try {
-    await fs.writeFile(talkersPath, JSON.stringify(content));
+    await fs.writeFile(talkersPath, JSON.stringify(content, null, 2));
   } catch (e) {
     console.error('Erro ao salvar o arquivo', e.message);
     return null;
@@ -32,4 +32,12 @@ const deleteTalker = async (id) => {
   await createTalker(newData);
 };
 
-module.exports = { createTalker, updateTalker, deleteTalker };
+const updateRate = async (id, newRate) => {
+  const talkersData = await readFile.getAll();
+  const personToBeUpdated = talkersData.find((person) => person.id === +id);
+  talkersData[talkersData.indexOf(personToBeUpdated)].talk.rate = +newRate;
+  personToBeUpdated.talk.rate = Number(newRate);
+  await createTalker(talkersData);
+};
+
+module.exports = { createTalker, updateTalker, deleteTalker, updateRate };
