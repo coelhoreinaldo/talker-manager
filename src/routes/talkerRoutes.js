@@ -5,8 +5,16 @@ const apiCredentials = require('../middlewares/apiCredentials');
 const validateFields = require('../middlewares/validateFields');
 const validateParams = require('../middlewares/validateParams');
 const verifyId = require('../middlewares/verifyId');
+const talkerDB = require('../db/talkerDB');
+const formatData = require('../utils/formatData');
 
 const router = express.Router();
+
+router.get('/db', async (_req, res) => {
+  const [result] = await talkerDB.findAll();
+  const array = formatData([...result]);
+  return res.status(200).json(array);
+});
 
 router.get('/search',
   apiCredentials,
@@ -18,7 +26,7 @@ router.get('/search',
     return res.status(200).json(talkersData);
   });
 
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
   try {
     const talkersData = await readFile.getAll();
     if (talkersData) {
