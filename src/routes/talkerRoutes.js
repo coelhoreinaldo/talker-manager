@@ -3,14 +3,15 @@ const readFile = require('../utils/readFile');
 const writeFile = require('../utils/writeFile');
 const apiCredentials = require('../middlewares/apiCredentials');
 const validateFields = require('../middlewares/validateFields');
+const validateParams = require('../middlewares/validateParams');
 const verifyId = require('../middlewares/verifyId');
 
 const router = express.Router();
 
 router.get('/search',
   apiCredentials,
-  validateFields.validateRateParam,
-  validateFields.validateDateParam,
+  validateParams.validateRateParam,
+  validateParams.validateDateParam,
   async (req, res) => {
     const { query } = req;
     const talkersData = await readFile.getAll(query.q, query.rate, query.date);
@@ -68,19 +69,3 @@ router.put('/:id', verifyId, async (req, res) => {
 });
 
 module.exports = router;
-
-// router.post('/', validateFields.validateNameAndAge, validateFields.validateTalkInfo, validateFields.validateNameAndAgeRequirements, validateFields.validateDate, validateFields.validateRate, async (req, res) => {
-//   const { body } = req;
-//   const talkersData = await readFile.getAll();
-//   const id = talkersData[talkersData.length - 1].id + 1;
-//   const newPerson = { id, ...body };
-//   const updatedData = [...talkersData, newPerson];
-//   await writeFile.createTalker(updatedData);
-//   return res.status(201).json(newPerson);
-// });
-
-// router.put('/:id', validateFields.validateNameAndAge, validateFields.validateTalkInfo, validateFields.validateNameAndAgeRequirements, validateFields.validateDate, validateFields.validateRate, verifyId, async (req, res) => {
-//   const { id } = req.params;
-//   const updatedPerson = await writeFile.updateTalker(id, body);
-//   return res.status(200).json(updatedPerson);
-// });
