@@ -3,13 +3,17 @@ const path = require('path');
 
 const talkersPath = path.resolve(__dirname, '../talker.json');
 
-const getAll = async (query) => {
+const getAll = async (query, rate) => {
   try {
     const data = JSON.parse(await fs.readFile(talkersPath));
+    let filteredData = data;
     if (query) {
-      return data.filter((person) => person.name.includes(query));
+      filteredData = filteredData.filter((person) => person.name.includes(query));
     }
-    return data;
+    if (rate) {
+      filteredData = filteredData.filter(({ talk }) => talk.rate === +rate);
+    }
+    return filteredData;
   } catch (error) {
     console.error('Arquivo não encontrado.');
   }

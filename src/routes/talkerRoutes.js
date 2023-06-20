@@ -7,9 +7,9 @@ const verifyId = require('../middlewares/verifyId');
 
 const router = express.Router();
 
-router.get('/search', apiCredentials, async (req, res) => {
-  const { q } = req.query;
-  const talkersData = await readFile.getAll(q);
+router.get('/search', apiCredentials, validateFields.validateRateParam, async (req, res) => {
+  const { query } = req;
+  const talkersData = await readFile.getAll(query.q, query.rate);
   return res.status(200).json(talkersData);
 });
 

@@ -1,5 +1,5 @@
 const validateField = (field, res, value) => {
-  if (!field) {
+  if (field === undefined) {
     return res.status(400).json({ message: `O campo "${value}" é obrigatório` });
   }
 };
@@ -17,6 +17,7 @@ const validateTalkInfo = (req, res, next) => {
   const { talk } = req.body;
 
   return validateField(talk.watchedAt, res, 'watchedAt')
+    || validateField(talk.rate, res, 'rate')
     || next();
 };
 
@@ -46,9 +47,6 @@ const validateDate = (req, res, next) => {
 
 const validateRate = (req, res, next) => {
   const { talk } = req.body;
-  if (talk.rate === undefined) {
-    return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
-  }
   if (talk.rate < 1 || talk.rate > 5 || talk.rate % 1 !== 0) {
     return res.status(400).json({
       message: 'O campo "rate" deve ser um número inteiro entre 1 e 5',
@@ -57,6 +55,21 @@ const validateRate = (req, res, next) => {
   next();
 };
 
+const validateRateParam = (req, res, next) => {
+  const { query } = req;
+  if (query.rate && (query.rate < 1 || query.rate > 5 || query.rate % 1 !== 0)) {
+    return res.status(400).json({
+      message: 'O campo "rate" deve ser um número inteiro entre 1 e 5',
+    });
+  }
+  next();
+};
+
 module.exports = {
-  validateNameAndAge, validateTalkInfo, validateNameAndAgeRequirements, validateDate, validateRate,
+  validateNameAndAge,
+  validateTalkInfo,
+  validateNameAndAgeRequirements,
+  validateDate,
+  validateRate,
+  validateRateParam,
 };
