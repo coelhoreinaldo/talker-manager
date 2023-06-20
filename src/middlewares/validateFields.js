@@ -65,6 +65,17 @@ const validateRateParam = (req, res, next) => {
   next();
 };
 
+const validateDateParam = (req, res, next) => {
+  const { date } = req.query;
+  const isDateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
+  if (date && !isDateFormat.test(date)) {
+    return res.status(400).json({
+      message: 'O parâmetro "date" deve ter o formato "dd/mm/aaaa"',
+    });
+  }
+  next();
+};
+
 module.exports = {
   validateNameAndAge,
   validateTalkInfo,
@@ -72,4 +83,5 @@ module.exports = {
   validateDate,
   validateRate,
   validateRateParam,
+  validateDateParam,
 };

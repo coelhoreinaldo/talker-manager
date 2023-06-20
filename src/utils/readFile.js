@@ -3,7 +3,7 @@ const path = require('path');
 
 const talkersPath = path.resolve(__dirname, '../talker.json');
 
-const getAll = async (query, rate) => {
+const getAll = async (query, rate, date) => {
   try {
     const data = JSON.parse(await fs.readFile(talkersPath));
     let filteredData = data;
@@ -12,6 +12,9 @@ const getAll = async (query, rate) => {
     }
     if (rate) {
       filteredData = filteredData.filter(({ talk }) => talk.rate === +rate);
+    }
+    if (date) {
+      filteredData = filteredData.filter(({ talk }) => talk.watchedAt === date);
     }
     return filteredData;
   } catch (error) {

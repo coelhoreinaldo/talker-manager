@@ -7,11 +7,15 @@ const verifyId = require('../middlewares/verifyId');
 
 const router = express.Router();
 
-router.get('/search', apiCredentials, validateFields.validateRateParam, async (req, res) => {
-  const { query } = req;
-  const talkersData = await readFile.getAll(query.q, query.rate);
-  return res.status(200).json(talkersData);
-});
+router.get('/search',
+  apiCredentials,
+  validateFields.validateRateParam,
+  validateFields.validateDateParam,
+  async (req, res) => {
+    const { query } = req;
+    const talkersData = await readFile.getAll(query.q, query.rate, query.date);
+    return res.status(200).json(talkersData);
+  });
 
 router.get('/', async (req, res) => {
   try {
