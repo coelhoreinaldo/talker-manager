@@ -1,10 +1,24 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# 🎙 Talker Manager
+
+![Queries](./project.png)
+
+## 📘 Sobre
+
+Aplicação de cadastro de palestrantes na qual é possível cadastrar, visualizar, editar e excluir informações (CRUD).
+
+## ⚛️ Ferramentas
+
+- Node.js;
+- Express.js;
+- Middlewares;
+- Docker;
+- MySQL.
+
+## 🛠️ Como executar o projeto?
+
+1. Suba os containers da aplicação com `docker-compose up -d`
+2. Abra o terminal do container `docker exec -it talker_manager bash`
+
+## 📝 Nota
+
+![100% de aprovação no projeto](./grade.png)
